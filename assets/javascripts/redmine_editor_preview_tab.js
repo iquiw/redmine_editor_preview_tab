@@ -265,6 +265,26 @@ RedmineWikiTabPreview.EditorEvents = (function(Elements, TabEvents) {
 })(RedmineWikiTabPreview.Elements, RedmineWikiTabPreview.TabEvents);
 
 /**
+ * @class EditorAutoFocus
+ * @desc Auto focus on editors when edit button is clicked
+ */
+RedmineWikiTabPreview.EditorAutoFocus = (function() {
+  var init = function() {
+    $(document).ajaxSuccess(function() {
+      $("#issue_description").focus();
+      var $editLink = $('#all_attributes .icon-edit').parent();
+      $editLink.on('click', function() {
+        $('#issue_description').focus();
+      });
+    });
+  };
+
+  return {
+    init: init
+  };
+})();
+
+/**
  * @class EnsureAjaxCsrf
  * @desc Ensure that CSRF token is include with Ajax calls
  */
@@ -329,6 +349,7 @@ $(function() {
 
     RedmineWikiTabPreview.EnsureAjaxCsrf.init();
     RedmineWikiTabPreview.EditorEvents.init();
+    RedmineWikiTabPreview.EditorAutoFocus.init();
   }
 
 });
